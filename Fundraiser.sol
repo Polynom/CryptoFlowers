@@ -1,6 +1,6 @@
 pragma solidity ^0.4.11;
 
-import "./TokenOfGratitude.sol";
+import "./CryptoFlower.sol";
 
 /**
  * @title Crowdsale
@@ -14,7 +14,7 @@ contract Crowdsale {
     using SafeMath for uint256;
 
     // The token being sold
-    TokenOfGratitude public token;
+    CryptoFlower public token;
 
     // start and end timestamps where investments are allowed (both inclusive)
     uint256 public startTime;
