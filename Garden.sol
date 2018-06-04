@@ -120,18 +120,17 @@ contract FinalizableCrowdsale is Crowdsale, Ownable {
  */
 contract Garden is FinalizableCrowdsale {
 
-    // Utility variables
-    address public owner;
-    uint256 public price; 
-    bool fundraising;
-
     /*
      * TODO: finish comments ... - the public donation address
      * @dev please check for due diligence:
      * @notice Link to English site: TODO: fill
      * @notice Link to Etherscan: https://etherscan.io/address/ TODO: fill
      */
-    address constant public addressOfMSF = 0x249F02676D09A41938309447fdA33FB533d91DFC; // TODO: fill
+
+    // Utility variables
+    address public owner;
+    uint256 public price; 
+    bool fundraising;
 
     // Fundraising finalization events
     event finishFundraiser(uint raised);
