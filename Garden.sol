@@ -149,11 +149,21 @@ contract Garden is FinalizableCrowdsale {
         require(beneficiary != 0x0);
         require(validPurchase());
 
+        uint chance;
+        if (msg.value >= 100000000000000000) {
+            chance = 16;
+        } else if (msg.value >= 200000000000000000) {
+            chance = 32
+        } else if (msg.value >= 500000000000000000) {
+            chance = 48
+        }
+
         uint256 flowersCount = (msg.value/price);
-        
+        bytes32 generator = keccak256(now + uint(token.getGen(token.lastID())));
+
         // Mint tokens
         for (uint i = 0; i < flowersCount; i++) {
-            token.mint(beneficiary);
+            token.mint(beneficiary, generator, msg.value);
         }
 
         // update state
