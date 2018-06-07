@@ -13,8 +13,6 @@ contract CryptoFlower is ERC721Token, Ownable {
     ERC721Token(_name, _symbol)
     public {}
 
-    
-    
     function mint(address beneficiary, bytes32 generator, uint chance) onlyOwner external returns (bool)  {
 
         /*  
@@ -24,7 +22,7 @@ contract CryptoFlower is ERC721Token, Ownable {
          *  Stem:               1 (0-85); 2 (86-170); 3 (171-255); 
          *  Special:            None (0-222);1 (223-239); 2 (240-255); 
          *  Color Bloom:        16 distinct colors
-         *  Color Steem:        16 distinct colors
+         *  Color Stem:        16 distinct colors
          *  Color Background:   4 distinct colors
          */  
         
@@ -69,5 +67,3 @@ contract CryptoFlower is ERC721Token, Ownable {
         return out;
     }
 }
-
- 

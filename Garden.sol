@@ -124,7 +124,7 @@ contract Garden is FinalizableCrowdsale {
      * TODO: finish comments ... - the public donation address
      * @dev please check for due diligence:
      * @notice Link to English site: TODO: fill
-     * @notice Link to Etherscan: https://etherscan.io/address/ TODO: fill
+     * @notice Link to Etherscan: https://etherscan.io/address/0x3c2FFF4671fA239D5e167e5356058DF11a799aCe
      */
 
     // Utility variables
