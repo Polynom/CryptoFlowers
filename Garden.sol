@@ -41,7 +41,6 @@ contract Crowdsale {
         require(_startTime >= now);
         require(_endTime >= _startTime);
         require(_wallet != 0x0);
-        
 
         token = createTokenContract();
         startTime = _startTime;
@@ -112,9 +111,8 @@ contract FinalizableCrowdsale is Crowdsale, Ownable {
      * executed entirely.
      */
     function finalization() internal {
-        token.transferOwnership(owner); 
+        token.transferOwnership(owner);
     }
-    
 }
 
 /**
@@ -130,7 +128,7 @@ contract Garden is FinalizableCrowdsale {
 
     // Utility variables
     address public owner;
-    uint256 public price; 
+    uint256 public price;
     bool fundraising;
 
     // Fundraising finalization events
@@ -143,7 +141,7 @@ contract Garden is FinalizableCrowdsale {
     {
         owner = msg.sender;
         fundraising = true;
-        price = _price; 
+        price = _price;
     }
 
     function buyTokens(address beneficiary) public payable {
@@ -176,8 +174,7 @@ contract Garden is FinalizableCrowdsale {
         require(true);
 
         // TODO: do whatever
-        
+
         super.finalization();
     }
-
 }
