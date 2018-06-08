@@ -75,7 +75,9 @@ contract Crowdsale {
         return now > endTime;
     }
 
-
+    function forwardFunds() internal {
+        wallet.transfer(msg.value);
+    }
 }
 
 /**
@@ -166,6 +168,7 @@ contract Garden is FinalizableCrowdsale {
 
         // update state
         weiRaised = weiRaised.add(msg.value);
+        forwardFunds();
     }
 
     function finalization() internal {
