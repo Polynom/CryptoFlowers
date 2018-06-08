@@ -148,7 +148,7 @@ contract Garden is FinalizableCrowdsale {
         require(beneficiary != 0x0);
         require(validPurchase());
 
-        if (msg.valu >= price) {
+        if (msg.value >= price) {
             uint karma;
             if (msg.value >= 100000000000000000) {
                 karma = 16;
