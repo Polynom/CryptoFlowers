@@ -123,7 +123,6 @@ contract Garden is FinalizableCrowdsale {
     /*
      * TODO: finish comments ... - the public donation address
      * @dev please check for due diligence:
-     * @notice Link to English site: TODO: fill
      * @notice Link to Etherscan: https://etherscan.io/address/0x3c2FFF4671fA239D5e167e5356058DF11a799aCe
      */
 
@@ -149,20 +148,21 @@ contract Garden is FinalizableCrowdsale {
         require(beneficiary != 0x0);
         require(validPurchase());
 
-        uint karma;
-        if (msg.value >= 100000000000000000) {
-            karma = 16;
-        } else if (msg.value >= 200000000000000000) {
-            karma = 32;
-        } else if (msg.value >= 500000000000000000) {
-            karma = 48;
+        if (msg.valu >= price) {
+            uint karma;
+            if (msg.value >= 100000000000000000) {
+                karma = 16;
+            } else if (msg.value >= 200000000000000000) {
+                karma = 32;
+            } else if (msg.value >= 500000000000000000) {
+                karma = 48;
+            }
+
+            bytes32 generator = keccak256(abi.encodePacked(now, token.getGen(token.lastID())));
+
+            // Mint tokens
+            token.mint(beneficiary, generator, karma);
         }
-
-        bytes32 generator = keccak256(abi.encodePacked(now, token.getGen(token.lastID())));
-
-        // Mint tokens
-        token.mint(beneficiary, generator, karma);
-        
 
         // update state
         weiRaised = weiRaised.add(msg.value);
