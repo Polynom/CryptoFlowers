@@ -12,7 +12,7 @@ contract CryptoFlower is ERC721Token, Ownable {
     mapping (uint256 => bytes7) genes;
     mapping (uint256 => string) dedication;
 
-    event GenGenerated(uint256 tokenID, bytes7 gen);
+    event FlowerAwarded(address indexed owner, uint256 tokenID, bytes7 gen);
     event FlowerDedicated(uint256 tokenID, string wording);
 
     constructor(string _name, string _symbol)
@@ -20,7 +20,6 @@ contract CryptoFlower is ERC721Token, Ownable {
     public {}
 
     function mint(address beneficiary, bytes32 generator, uint karma) onlyOwner external returns (bool)  {
-
         /*
          *  Interpretation mechanism [variant (value interval)]
          *  Flower:             1 (0-85); 2 (86-170); 3 (171-255);
@@ -46,7 +45,7 @@ contract CryptoFlower is ERC721Token, Ownable {
         genome[6] = generator[6];
 
         genes[lastID() + 1] = bytesToBytes7(genome);
-        emit GenGenerated(lastID() + 1, genes[lastID() + 1]);
+        emit FlowerAwarded(beneficiary, lastID() + 1, genes[lastID() + 1]);
         _mint(beneficiary, lastID() + 1);
         return true;
     }
