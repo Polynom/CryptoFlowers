@@ -70,11 +70,7 @@ contract CryptoFlowerCrowdsale {
                 karma = 48;
             }
 
-            bytes32 generator = (
-                keccak256(block.coinbase)
-                ^ keccak256(now)
-                ^ keccak256(token.getGen(token.lastId()))
-            );
+            bytes32 generator = keccak256(abi.encodePacked(block.coinbase, now, token.getGen(token.lastID())));
 
             // mint tokens
             token.mint(beneficiary, generator, karma);
