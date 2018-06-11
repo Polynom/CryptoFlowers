@@ -2,8 +2,12 @@ pragma solidity ^0.4.21;
 
 import "./CryptoFlower.sol";
 
-
-contract CryptoFlowerCrowdsale {
+/*
+ *  @title CryptoFlowerFundraiser
+ *  @dev The contract enables to participate in a charitable fundraiser and be rewarded by a ERC721 collectible item
+ *  @dev Transaction sent with Ether above the pricing point will result in issuing a new unique and semi-random token
+ */
+contract CryptoFlowerFundraiser {
     // address of the token
     CryptoFlower public token;
 
@@ -20,19 +24,29 @@ contract CryptoFlowerCrowdsale {
     // total amount of wei raised
     uint256 public raised;
 
+    // finalization helper variable
     bool public finalized;
 
     // the owner of the contract
     address public owner;
 
+    // onlyOwner modifier extracted from OZs' Ownable contract
     modifier onlyOwner() {
-      require(msg.sender == owner);
-      _;
+        require(msg.sender == owner);
+        _;
     }
 
+    // event declaration
     event Donation(address indexed purchaser, uint256 value, uint256 totalRaised);
     event Finalized();
 
+    /*
+     *  @dev Constructor of the contract
+     *  @param uint256 _startTime - starting time of the fundraiser MUST be set in future
+     *  @param uint256 _endTime - time of the end of the fundraiser MUST be larger than _startTime, no funds will be accepted afterwards
+     *  @param uint256 _price - minimal contribution to generate a token
+     *  @param address _wallet - of the funds destination
+     */
     constructor(uint256 _startTime, uint256 _endTime, uint256 _price, address _wallet) public {
         require(_startTime >= now);
         require(_endTime >= _startTime);
@@ -48,11 +62,17 @@ contract CryptoFlowerCrowdsale {
         owner = msg.sender;
     }
 
+    /*
+     *  @dev fallback function triggering the buyToken procedure
+     */
     function () payable public {
         buyTokens(msg.sender);
     }
 
-    // donation and token purchase method
+    /*
+     *  @dev donation and token purchase method
+     *  @param address beneficiary is the destination of the token ownership
+     */
     function buyTokens(address beneficiary) public payable {
         require(beneficiary != 0x0);
         require(msg.value != 0);
@@ -60,6 +80,7 @@ contract CryptoFlowerCrowdsale {
         // check if within buying period
         require(now >= startTime && now <= endTime);
 
+        // increase chance to land a special flower if the participation is high enough
         if (msg.value >= price) {
             uint karma;
             if (msg.value >= 0.1 ether) {
@@ -83,6 +104,10 @@ contract CryptoFlowerCrowdsale {
         wallet.transfer(msg.value);
     }
 
+    /*
+     *  @dev finalization function to formally end the fundraiser
+     *  @dev only owner can call this
+     */
     function finalize() onlyOwner public {
         require(!finalized);
         require(now > endTime);
@@ -92,5 +117,11 @@ contract CryptoFlowerCrowdsale {
         finalized = true;
         emit Finalized();
     }
-}
 
+    /*
+     *  @dev clean up function to call a self-destruct benefiting the owner
+     */
+    function cleanUp() onlyOwner public {
+        selfdestruct(owner);
+    }
+}
