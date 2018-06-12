@@ -7,7 +7,7 @@ import "./CryptoFlower.sol";
  *  @dev The contract enables to participate in a charitable fundraiser and be rewarded by a ERC721 collectible item
  *  @dev Transaction sent with Ether above the pricing point will result in issuing a new unique and semi-random token
  */
-contract CryptoFlowerFundraiser {
+contract CryptoFlowerRaiser {
     // address of the token
     CryptoFlower public token;
 
@@ -122,6 +122,7 @@ contract CryptoFlowerFundraiser {
      *  @dev clean up function to call a self-destruct benefiting the owner
      */
     function cleanUp() onlyOwner public {
+        require(finalized);
         selfdestruct(owner);
     }
 }
